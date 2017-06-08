@@ -1,14 +1,38 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ page session="false" %>
-<html>
-<head>
-	<title>Home</title>
-</head>
-<body>
-<h1>
-	Hello world!  
-</h1>
+<%@ include file="includes/header.jsp"%>
 
-<P>  The time on the server is ${serverTime}. </P>
-</body>
-</html>
+<h1>Listado Cursos</h1>
+
+<!-- atributo request -->
+<p>${msg}</p>
+<!-- parametro request, ej: ?msg=Mensaje+para+el+usuario -->
+<p>${param.msg}</p>
+
+<table class="tablePlugin" cellspacing="0" width="100%">
+  <thead>
+      <tr>
+          <th>Curso</th>
+          <th>Codigo</th>
+                 
+      </tr>
+  </thead>
+  <tbody>        
+<c:forEach items="${cursos}" var="c">
+<tr>
+	<td>		
+		<a href="curso/edit/${c.id}">
+			 ${c.nombre}			
+		</a>		
+	</td>
+	<td>
+		<a href="curso/edit/${c.id}">${c.codigo}</a>
+	</td>
+</tr>	
+</c:forEach>
+
+
+</tbody>
+</table>
+
+
+
+<%@ include file="includes/footer.jsp" %> 
