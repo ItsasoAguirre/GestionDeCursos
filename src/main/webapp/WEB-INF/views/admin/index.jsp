@@ -1,7 +1,7 @@
 <%@ include file="../includes/header.jsp" %> 
 <h1>Listado Cursos</h1>
 
-<a href="curso/edit">Crear Nuevo</a>
+<a href="admin/edit">Crear Nuevo</a>
 
 <!-- atributo request -->
 <p>${msg}</p>
@@ -20,12 +20,12 @@
 <c:forEach items="${cursos}" var="c">
 <tr>
 	<td>		
-		<a href="curso/edit/${c.id}">
+		<a href="admin/edit/${c.id}">
 			 ${c.nombre}			
 		</a>		
 	</td>
 	<td>
-		<a href="curso/edit/${c.id}">${c.codigo}</a>
+		<a href="admin/edit/${c.id}">${c.codigo}</a>
 	</td>
 </tr>	
 </c:forEach>

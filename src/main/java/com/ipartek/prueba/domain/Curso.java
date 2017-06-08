@@ -10,6 +10,18 @@ public class Curso implements Serializable {
 	private String nombre;
 
 	private String codigo;
+	
+	  // CONSTRUCTOR
+
+	  /**
+	   * Contructor con parámetros vacios
+	   */
+	  public Curso() {
+	    super();
+	    this.id = -1;
+	    this.nombre = "";
+	    this.codigo="";
+	  }
 
 
 	public long getId() {

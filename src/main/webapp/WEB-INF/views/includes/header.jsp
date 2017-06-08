@@ -38,16 +38,10 @@
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#"><spring:message code="nav.app.name" text="Web App"/></a>
+            <a class="navbar-brand" href="#"><spring:message code="nav.app.name" text="Inicio"/></a>
           </div>
           <div id="navbar" class="navbar-collapse collapse">
-          
-          <!-- menu izquierda -->
-            <ul class="nav navbar-nav">
-              <li>
-              	<a href="curso"><spring:message code="nav.recetas" text="Cursos"/></a>
-              </li>            
-            </ul>
+
           
           <!-- search -->
 
