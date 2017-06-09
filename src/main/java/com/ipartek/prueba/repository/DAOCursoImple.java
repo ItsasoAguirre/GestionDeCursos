@@ -40,6 +40,7 @@ public class DAOCursoImple implements DAOCurso {
 	}
 	
 	private static final String SQL_GET_ALL = "SELECT `id`, `nombreCurso`, `codigoCurso` FROM `curso` ORDER BY `id` DESC LIMIT 1000;";
+	private static final String SQL_GET_ALL_FILTER = "SELECT `id`, `nombreCurso`, `codigoCurso` FROM `curso` WHERE `nombreCurso` LIKE '%' ? '%' ORDER BY `id` DESC LIMIT 1000;";
 	private static final String SQL_GET_BY_ID ="SELECT `id`, `nombreCurso`, `codigoCurso` FROM `curso` WHERE `id` = ?;";
 	private static final String SQL_DELETE = "DELETE FROM `curso` WHERE `id` = ?;";
 	private static final String SQL_UPDATE = "UPDATE `curso` SET `nombreCurso`= ?,`codigoCurso`= ? WHERE `id`= ? ;";
@@ -47,13 +48,19 @@ public class DAOCursoImple implements DAOCurso {
 	
 	
 	@Override
-	public List<Curso> getAll() {
+	public List<Curso> getAll(String filter) {
 		ArrayList<Curso> lista = new ArrayList<Curso>();
 
 		try {
-
+			
+			if (filter == null) {
 				lista = (ArrayList<Curso>) this.jdbcTemplate.query(SQL_GET_ALL, new CursoMapper());
+			}else {
+				lista = (ArrayList<Curso>) this.jdbcTemplate.query(SQL_GET_ALL_FILTER, new Object[] { filter },
+						new CursoMapper());
 
+			}
+			
 		} catch (EmptyResultDataAccessException e) {
 
 			this.LOG.warn("No existen cursos todavia");

@@ -16,7 +16,7 @@ public interface ServiceCurso {
 	 *            filtro por el nombre si viene rellenado, sino, lista todo.
 	 * @return
 	 */
-	List<Curso> listar();
+	List<Curso> listar(String filter);
 
 	Curso buscarPorID(long id);
 

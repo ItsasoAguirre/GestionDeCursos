@@ -18,9 +18,9 @@ public class ServiceCursoImple implements ServiceCurso {
 	private DAOCurso daoCurso;
 
 	@Override
-	public List<Curso> listar() {
+	public List<Curso> listar(String filter) {
 		LOG.trace("listar cursos");
-		return daoCurso.getAll();
+		return daoCurso.getAll( filter);
 	}
 
 	@Override

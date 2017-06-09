@@ -41,11 +41,17 @@ public class AdminController {
   public String listar(Model model) {
     LOG.info("listar");
 
-    model.addAttribute("cursos", this.serviceCurso.listar());
+    model.addAttribute("cursos", this.serviceCurso.listar(null));
 
     return "admin/index";
   }
 
+  /**
+   * Para ir al formulario de un curso nuevo
+   * 
+   * @param model atributos del curso inicializado con el constructor con campos vacios y el index a -1
+   * @return form de curso nuevo
+   */
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
 	public String irFormularioNuevo(Model model) {
 
@@ -53,6 +59,12 @@ public class AdminController {
 		return "admin/form";
 	}
 	
+	/**
+	 * Te lleva al formulario de editar un curso ya existente
+	 * @param id del curso a editar
+	 * @param model atributos del curso a modificar
+	 * @return form de modificar curso
+	 */
 	@RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
 	public String irFormularioEditar(@PathVariable int id, Model model) {
 
@@ -62,6 +74,13 @@ public class AdminController {
 		return "admin/form";
 	}
 
+	/**
+	 * Crea un curso 
+	 * @param curso datos del curso a insertar
+	 * @param bindingResult 
+	 * @param model mensajes para el usuario
+	 * @return regresa al index de la pagina de gestion de cursos
+	 */
 	@RequestMapping(value = "/crear", method = RequestMethod.POST)
 	public String crear(@Valid Curso curso, BindingResult bindingResult, Model model) {
 
@@ -90,7 +109,7 @@ public class AdminController {
 	    }
 
 	    model.addAttribute("msg", msg);
-	    model.addAttribute("cursos", this.serviceCurso.listar());
+	    model.addAttribute("cursos", this.serviceCurso.listar(null));
 
 		return "admin/index";
 	}

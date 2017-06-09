@@ -14,7 +14,7 @@ public interface DAOCurso {
 	 * 
 	 * @return List<Recetas> si hay datos, si no List inicializada not null
 	 */
-	List<Curso> getAll();
+	List<Curso> getAll(String filter);
 	
 	Curso getById(long id);
 
