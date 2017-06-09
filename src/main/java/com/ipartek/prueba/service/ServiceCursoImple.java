@@ -18,9 +18,14 @@ public class ServiceCursoImple implements ServiceCurso {
 	private DAOCurso daoCurso;
 
 	@Override
-	public List<Curso> listar(String filter) {
-		LOG.trace("listar cursos");
-		return daoCurso.getAll( filter);
+	public List<Curso> listarAdmin(String filter) {
+		LOG.trace("listar cursos para el Administrador");
+		return daoCurso.getAllAdmin( filter);
+	}
+	@Override
+	public List<Curso> listarUser(String filter) {
+		LOG.trace("listar 10 ultimos cursos");
+		return daoCurso.getAllUser( filter);
 	}
 
 	@Override
@@ -47,4 +52,6 @@ public class ServiceCursoImple implements ServiceCurso {
 		LOG.trace("Eliminando por id: " + id);
 		return daoCurso.delete(id);
 	}
+
+
 }

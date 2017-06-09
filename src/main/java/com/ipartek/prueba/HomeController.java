@@ -31,7 +31,7 @@ public class HomeController {
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home( Model model) {
 		LOG.info("Listando cursos");
-		ArrayList<Curso> cursos = (ArrayList<Curso>) serviceCurso.listar(null);
+		ArrayList<Curso> cursos = (ArrayList<Curso>) serviceCurso.listarUser(null);
 		model.addAttribute("cursos", cursos);
 		
 		return "home";

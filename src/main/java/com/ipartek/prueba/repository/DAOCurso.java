@@ -10,11 +10,19 @@ public interface DAOCurso {
 
 	void setDatasource(DataSource ds);
 	/**
-	 * Listado de todas las Recetas sin Usuarios
+	 * Listado de los 500 ultimos cursos insertados
 	 * 
-	 * @return List<Recetas> si hay datos, si no List inicializada not null
+	 * @param filter filtro que es opcional para realizar una consulta a la API y te de los datos de forma asincrona
+	 * @return List<Curso> si hay datos, si no List inicializada not null
 	 */
-	List<Curso> getAll(String filter);
+	List<Curso> getAllAdmin(String filter);
+	
+	/**
+	 * Lista los ultimo 10 cursos
+	 * @param filter filtro que es opcional para realizar una consulta a la API y te de los datos de forma asincrona
+	 * @return List<Curso> si hay datos, si no List inicializada not null
+	 */
+	List<Curso> getAllUser(String filter);
 	
 	Curso getById(long id);
 

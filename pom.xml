@@ -203,6 +203,14 @@
 			<version>4.7</version>
 			<scope>test</scope>
 		</dependency>
+		
+		<!-- OpenCSV -->
+		<dependency>
+			<groupId>com.opencsv</groupId>
+			<artifactId>opencsv</artifactId>
+			<version>3.7</version>
+			<scope>compile</scope>
+		</dependency>
 	</dependencies>
     <build>
         <plugins>

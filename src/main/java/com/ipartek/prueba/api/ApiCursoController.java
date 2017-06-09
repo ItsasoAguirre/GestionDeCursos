@@ -29,12 +29,12 @@ public class ApiCursoController {
 
 		if (filter != null) {
 
-			cursos = (ArrayList<Curso>) this.serviceCurso.listar(filter);
+			cursos = (ArrayList<Curso>) this.serviceCurso.listarAdmin(filter);
 
 		} else {
 
 			// TODO Fallo seguridad mostrar informacion del usuario privada
-			cursos = (ArrayList<Curso>) this.serviceCurso.listar(null);
+			cursos = (ArrayList<Curso>) this.serviceCurso.listarAdmin(null);
 
 		}
 

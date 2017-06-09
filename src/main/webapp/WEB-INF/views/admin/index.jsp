@@ -1,7 +1,10 @@
 <%@ include file="../includes/header.jsp" %> 
 <h1>Listado Cursos</h1>
-
+<a href="admin/migrarCSV">Migrar cursos del archivo .CSV</a>
+<br>
+<br>
 <a href="admin/edit">Crear Nuevo</a>
+
 
 <!-- atributo request -->
 <p>${msg}</p>

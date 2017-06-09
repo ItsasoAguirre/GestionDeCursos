@@ -5,13 +5,14 @@ import java.io.Serializable;
 public class Curso implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
+	//ATRIBUTOS
 	private long id;
 
 	private String nombre;
 
 	private String codigo;
 	
-	  // CONSTRUCTOR
+	  // CONSTRUCTORES
 
 	  /**
 	   * Contructor con parámetros vacios
@@ -22,6 +23,19 @@ public class Curso implements Serializable {
 	    this.nombre = "";
 	    this.codigo="";
 	  }
+	  
+
+	  /**
+	   * Contructor pasando nombre y codigo
+	   * @param nombre del curso
+	   * @param codigo del curso
+	   */
+	  public Curso(String nombre, String codigo) {
+		    super();
+		    this.id = -1;
+		    this.nombre = nombre;
+		    this.codigo=codigo;
+		  }
 
 
 	public long getId() {

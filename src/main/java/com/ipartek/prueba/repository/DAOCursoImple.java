@@ -39,7 +39,8 @@ public class DAOCursoImple implements DAOCurso {
 		this.jdbcTemplate = new JdbcTemplate(this.dataSource);
 	}
 	
-	private static final String SQL_GET_ALL = "SELECT `id`, `nombreCurso`, `codigoCurso` FROM `curso` ORDER BY `id` DESC LIMIT 1000;";
+	private static final String SQL_GET_ALL_USER = "SELECT `id`, `nombreCurso`, `codigoCurso` FROM `curso` ORDER BY `id` DESC LIMIT 10;";
+	private static final String SQL_GET_ALL_ADMIN = "SELECT `id`, `nombreCurso`, `codigoCurso` FROM `curso` ORDER BY `id` DESC LIMIT 500;";
 	private static final String SQL_GET_ALL_FILTER = "SELECT `id`, `nombreCurso`, `codigoCurso` FROM `curso` WHERE `nombreCurso` LIKE '%' ? '%' ORDER BY `id` DESC LIMIT 1000;";
 	private static final String SQL_GET_BY_ID ="SELECT `id`, `nombreCurso`, `codigoCurso` FROM `curso` WHERE `id` = ?;";
 	private static final String SQL_DELETE = "DELETE FROM `curso` WHERE `id` = ?;";
@@ -48,13 +49,40 @@ public class DAOCursoImple implements DAOCurso {
 	
 	
 	@Override
-	public List<Curso> getAll(String filter) {
+	public List<Curso> getAllAdmin(String filter) {
 		ArrayList<Curso> lista = new ArrayList<Curso>();
 
 		try {
 			
 			if (filter == null) {
-				lista = (ArrayList<Curso>) this.jdbcTemplate.query(SQL_GET_ALL, new CursoMapper());
+				lista = (ArrayList<Curso>) this.jdbcTemplate.query(SQL_GET_ALL_ADMIN, new CursoMapper());
+			}else {
+				lista = (ArrayList<Curso>) this.jdbcTemplate.query(SQL_GET_ALL_FILTER, new Object[] { filter },
+						new CursoMapper());
+
+			}
+			
+		} catch (EmptyResultDataAccessException e) {
+
+			this.LOG.warn("No existen cursos todavia");
+
+		} catch (Exception e) {
+
+			this.LOG.error(e.getMessage());
+
+		}
+
+		return lista;
+	}
+	
+	@Override
+	public List<Curso> getAllUser(String filter) {
+		ArrayList<Curso> lista = new ArrayList<Curso>();
+
+		try {
+			
+			if (filter == null) {
+				lista = (ArrayList<Curso>) this.jdbcTemplate.query(SQL_GET_ALL_USER, new CursoMapper());
 			}else {
 				lista = (ArrayList<Curso>) this.jdbcTemplate.query(SQL_GET_ALL_FILTER, new Object[] { filter },
 						new CursoMapper());
@@ -178,4 +206,6 @@ public class DAOCursoImple implements DAOCurso {
 
 		return resul;
 	}
+
+	
 }

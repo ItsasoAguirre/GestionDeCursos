@@ -1,5 +1,9 @@
 package com.ipartek.prueba.controller;
 
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Arrays;
+
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
@@ -14,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.ipartek.prueba.domain.Curso;
 import com.ipartek.prueba.service.ServiceCurso;
+import com.opencsv.CSVReader;
 
 /**
  * Contolador para el admin
@@ -24,126 +29,178 @@ import com.ipartek.prueba.service.ServiceCurso;
 @Controller
 @RequestMapping(value = "/admin")
 public class AdminController {
-
-  private static final Logger LOG = LoggerFactory.getLogger(AdminController.class);
-
-  @Autowired()
-  private ServiceCurso serviceCurso;
-
-  /**
-   * Listar cursos
-   * 
-   * @param model
-   *          atributos
-   * @return listado de cursos
-   */
-  @RequestMapping(value = { "", "/" }, method = RequestMethod.GET)
-  public String listar(Model model) {
-    LOG.info("listar");
-
-    model.addAttribute("cursos", this.serviceCurso.listar(null));
-
-    return "admin/index";
-  }
-
-  /**
-   * Para ir al formulario de un curso nuevo
-   * 
-   * @param model atributos del curso inicializado con el constructor con campos vacios y el index a -1
-   * @return form de curso nuevo
-   */
-	@RequestMapping(value = "/edit", method = RequestMethod.GET)
-	public String irFormularioNuevo(Model model) {
-
-		model.addAttribute("curso", new Curso());
-		return "admin/form";
-	}
 	
-	/**
-	 * Te lleva al formulario de editar un curso ya existente
-	 * @param id del curso a editar
-	 * @param model atributos del curso a modificar
-	 * @return form de modificar curso
-	 */
-	@RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
-	public String irFormularioEditar(@PathVariable int id, Model model) {
+	  public static final String SEPARATOR=";";
+	  public static final String QUOTE="\"";
 
-		   Curso curso = this.serviceCurso.buscarPorID(id);
-
-		    model.addAttribute("curso", curso);
-		return "admin/form";
-	}
-
-	/**
-	 * Crea un curso 
-	 * @param curso datos del curso a insertar
-	 * @param bindingResult 
-	 * @param model mensajes para el usuario
-	 * @return regresa al index de la pagina de gestion de cursos
-	 */
-	@RequestMapping(value = "/crear", method = RequestMethod.POST)
-	public String crear(@Valid Curso curso, BindingResult bindingResult, Model model) {
-
-	    LOG.info("recibimos datos del formulario " + curso);
-	    String msg = null;
-
-	    // validar datos del formulario
-	    if (!bindingResult.hasErrors()) {
-
-	      if (curso.getId() == -1) {
-
-	        this.serviceCurso.crear(curso);
-	        msg = "Creado nuevo curso";
-
-	      } else {
-
-	        this.serviceCurso.modificar(curso);
-	        msg = "Curso modificado";
-
-	      }
-
-	    } else {
-
-	      LOG.info("formulario con datos no validos");
-
-	    }
-
-	    model.addAttribute("msg", msg);
-	    model.addAttribute("cursos", this.serviceCurso.listar(null));
-
-		return "admin/index";
-	}
-
-	/**
-	 * Elimina curso
-	 * 
-	 * @param idCurso
-	 *            identificador del curso
-	 * @param model
-	 *            <ol>
-	 *            <li>msg: Mensaje para el usuario</li>
-	 *            </ol>
-	 * @return Si se elimina curso llamamos a la accion "listar".<br>
-	 * 
-	 * 
-	 */
-	@RequestMapping(value = "/delete/{idCurso}", method = RequestMethod.GET)
-	public String eliminar(@PathVariable int idCurso, Model model) {
-
-		LOG.info("eliminar curso " + idCurso);
-		String view = "redirect: ../";
-		String msg = "Curso no eliminado";
-
-		if (serviceCurso.eliminar(idCurso)) {
-			msg = "Curso eleminado con exito";
-
-		} else {
-
-			view = "redirect: ../edit/" + idCurso;
+	  private static final Logger LOG = LoggerFactory.getLogger(AdminController.class);
+	
+	  @Autowired()
+	  private ServiceCurso serviceCurso;
+	
+	  /**
+	   * Listar cursos
+	   * 
+	   * @param model
+	   *          atributos
+	   * @return listado de cursos
+	   */
+	  @RequestMapping(value = { "", "/" }, method = RequestMethod.GET)
+	  public String listarUser(Model model) {
+	    LOG.info("listar");
+	
+	    model.addAttribute("cursos", this.serviceCurso.listarAdmin(null));
+	
+	    return "admin/index";
+	  }
+	
+	  /**
+	   * Para ir al formulario de un curso nuevo
+	   * 
+	   * @param model atributos del curso inicializado con el constructor con campos vacios y el index a -1
+	   * @return form de curso nuevo
+	   */
+		@RequestMapping(value = "/edit", method = RequestMethod.GET)
+		public String irFormularioNuevo(Model model) {
+	
+			model.addAttribute("curso", new Curso());
+			return "admin/form";
 		}
-		model.addAttribute("msg", msg);
-		return view;
-	}
+		
+		/**
+		 * Te lleva al formulario de editar un curso ya existente
+		 * @param id del curso a editar
+		 * @param model atributos del curso a modificar
+		 * @return form de modificar curso
+		 */
+		@RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
+		public String irFormularioEditar(@PathVariable int id, Model model) {
+	
+			   Curso curso = this.serviceCurso.buscarPorID(id);
+	
+			    model.addAttribute("curso", curso);
+			return "admin/form";
+		}
+	
+		/**
+		 * Crea un curso 
+		 * @param curso datos del curso a insertar
+		 * @param bindingResult 
+		 * @param model mensajes para el usuario
+		 * @return regresa al index de la pagina de gestion de cursos
+		 */
+		@RequestMapping(value = "/crear", method = RequestMethod.POST)
+		public String crear(@Valid Curso curso, BindingResult bindingResult, Model model) {
+	
+		    LOG.info("recibimos datos del formulario " + curso);
+		    String msg = null;
+	
+		    // validar datos del formulario
+		    if (!bindingResult.hasErrors()) {
+	
+		      if (curso.getId() == -1) {
+	
+		        this.serviceCurso.crear(curso);
+		        msg = "Creado nuevo curso";
+	
+		      } else {
+	
+		        this.serviceCurso.modificar(curso);
+		        msg = "Curso modificado";
+	
+		      }
+	
+		    } else {
+	
+		      LOG.info("formulario con datos no validos");
+	
+		    }
+	
+		    model.addAttribute("msg", msg);
+		    model.addAttribute("cursos", this.serviceCurso.listarAdmin(null));
+	
+			return "admin/index";
+		}
+	
+		/**
+		 * Elimina curso
+		 * 
+		 * @param idCurso
+		 *            identificador del curso
+		 * @param model
+		 *            <ol>
+		 *            <li>msg: Mensaje para el usuario</li>
+		 *            </ol>
+		 * @return Si se elimina curso llamamos a la accion "listar".<br>
+		 * 
+		 * 
+		 */
+		@RequestMapping(value = "/delete/{idCurso}", method = RequestMethod.GET)
+		public String eliminar(@PathVariable int idCurso, Model model) {
+	
+			LOG.info("eliminar curso " + idCurso);
+			String view = "redirect: ../";
+			String msg = "Curso no eliminado";
+	
+			if (serviceCurso.eliminar(idCurso)) {
+				msg = "Curso eleminado con exito";
+	
+			} else {
+	
+				view = "redirect: ../edit/" + idCurso;
+			}
+			model.addAttribute("msg", msg);
+			return view;
+		}
+	
+		/**
+		 * Proceso de migracion desde un archivo .CSV a la base de datos
+		 * 
+		 * @param model mesaje para el usuario y la lista de todos los cursos
+		 * @return vista de la lista de los cursos
+		 */
+		@RequestMapping(value = "/migrarCSV", method = RequestMethod.GET)
+		public String migrarCSV(Model model) {
 
+			LOG.info("migrar archivo ");
+			String view = "redirect: ../";
+			String msg = "Migracion no realizada";
+			Curso c;
+
+		     //"C:/Desarrollo/WorkSpaceExamen/GestionDeCursos/deploy/cursos.csv"
+			CSVReader reader = null;
+		      try {
+		         reader = new CSVReader(new FileReader("C:/Desarrollo/WorkSpaceExamen/GestionDeCursos/deploy/cursos.csv"));
+		         String[] nextLine=null;
+		         boolean primeraLinea=true;
+		         while ((nextLine = reader.readNext()) != null) {
+		        	 
+		        	 if(!primeraLinea){
+			        	String [] fields = nextLine[0].split(SEPARATOR);
+			        	//System.out.println(fields[1]+fields[8]); 
+			        	c=new Curso(fields[1],fields[8]);
+			        	this.serviceCurso.crear(c);
+				        msg = "Creado nuevo curso";
+			            
+		        	 }
+		        	 primeraLinea=false;
+		         }
+		         
+		      } catch (Exception e) {
+		         
+		      } finally {
+		         if (null != reader) {
+		            try {
+						reader.close();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+		         } 
+		      }
+				model.addAttribute("msg", msg);
+				model.addAttribute("cursos", this.serviceCurso.listarAdmin(null));
+				return view;
+		   }
 
 }
