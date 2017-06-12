@@ -56,7 +56,10 @@
 				</div>				
 			</form>
 
-			<!-- menu derecha -->  
+			<c:if test="${not empty }">
+				<h2>Detalle del curso: ${curso.nombre}</h2>
+			</c:if>
+						<!-- menu derecha -->  
             <ul class="nav navbar-nav navbar-right">
               <li class="active">
               	 <a href="admin">LOGIN</a>
