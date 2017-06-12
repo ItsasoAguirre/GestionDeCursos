@@ -26,7 +26,9 @@ public class HomeController {
 	private static final Logger LOG = LoggerFactory.getLogger(HomeController.class);
 	
 	/**
-	 * Simply selects the home view to render by returning its name.
+	 * Listado de los ultimos 10 cursos introducidos
+	 * @param model listado de cursos
+	 * @return vista a la pagina home
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home( Model model) {

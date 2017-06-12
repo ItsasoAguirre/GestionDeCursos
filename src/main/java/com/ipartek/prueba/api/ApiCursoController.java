@@ -22,6 +22,11 @@ public class ApiCursoController {
 	@Autowired
 	ServiceCurso serviceCurso;
 	
+	/**
+	 * Listado de los cursos con un filtro opcional o sin el
+	 * @param filter filtro opcional que sirve para realizar una busqueda de un curso concreto a partir de su nombre
+	 * @return retorna los cursos ya sean con filtro o no 
+	 */
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public @ResponseBody ArrayList<Curso> listar(@RequestParam(value = "filter", required = false) String filter) {
 

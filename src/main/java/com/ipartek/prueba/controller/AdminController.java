@@ -2,13 +2,16 @@ package com.ipartek.prueba.controller;
 
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Arrays;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,17 +21,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.ipartek.prueba.domain.Curso;
 import com.ipartek.prueba.service.ServiceCurso;
+
 import com.opencsv.CSVReader;
 
-/**
- * Contolador para el admin
- * 
- * @author curso
- *
- */
-@Controller
-@RequestMapping(value = "/admin")
-public class AdminController {
+	/**
+	 * Contolador para el admin
+	 * 
+	 * @author curso
+	 *
+	 */
+	@Controller
+	@RequestMapping(value = "/admin")
+	public class AdminController {
 	
 	  public static final String SEPARATOR=";";
 	  public static final String QUOTE="\"";
@@ -165,42 +169,60 @@ public class AdminController {
 			LOG.info("migrar archivo ");
 			String view = "redirect: ../";
 			String msg = "Migracion no realizada";
-			Curso c;
+			Curso c = null;
+			ArrayList<Curso> noInsertados = new ArrayList<Curso>();
+		
 
 		     //"C:/Desarrollo/WorkSpaceExamen/GestionDeCursos/deploy/cursos.csv"
 			CSVReader reader = null;
 		      try {
-		         reader = new CSVReader(new FileReader("C:/Desarrollo/WorkSpaceExamen/GestionDeCursos/deploy/cursos.csv"));
+		         reader = new CSVReader(new FileReader("C:/Desarrollo/WorkSpaceExamen/GestionDeCursos/deploy/cursos.csv"),';');
 		         String[] nextLine=null;
+		         List<String[]> texto = reader.readAll();
 		         boolean primeraLinea=true;
-		         while ((nextLine = reader.readNext()) != null) {
-		        	 
-		        	 if(!primeraLinea){
-			        	String [] fields = nextLine[0].split(SEPARATOR);
-			        	//System.out.println(fields[1]+fields[8]); 
-			        	c=new Curso(fields[1],fields[8]);
-			        	this.serviceCurso.crear(c);
-				        msg = "Creado nuevo curso";
-			            
+
+			     for (String[] linea: texto) {
+			    	 try{
+			        	 if(!primeraLinea){
+			        		 c=new Curso(linea[1],linea[8]);
+			        		 this.serviceCurso.crear(c);
+			        		 msg = "Creado nuevo curso";
+			        	 }
+			        	 primeraLinea=false;
+			        	 msg = "Creado nuevo curso";
+			        	 
+			    	 }catch(DuplicateKeyException  e)
+		        	 {
+		        		 e.printStackTrace();
+		        		 noInsertados.add(c);
 		        	 }
-		        	 primeraLinea=false;
-		         }
+				}
+			     reader.close();
+		        
+			        	
 		         
-		      } catch (Exception e) {
-		         
-		      } finally {
-		         if (null != reader) {
-		            try {
-						reader.close();
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-		         } 
-		      }
+		      }//end primer try
+		      catch(Exception e){
+	        		 e.printStackTrace();
+			        	
+		      }finally 
+		        	 {
+	     		 if (null != reader) 
+	     		 {
+	     			 try {
+	     				 reader.close();
+	     				 
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+	     		 } //end if
+		     	}//end finally
+		      	msg = "No han sido creados "+noInsertados.size()+" cursos por ya estar introducidos";
 				model.addAttribute("msg", msg);
 				model.addAttribute("cursos", this.serviceCurso.listarAdmin(null));
-				return view;
-		   }
-
-}
+				return "admin/index";
+		   
+		}
+}//end controller
+		

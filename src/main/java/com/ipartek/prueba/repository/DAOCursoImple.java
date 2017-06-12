@@ -13,6 +13,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
@@ -27,41 +28,43 @@ import com.ipartek.prueba.repository.mapper.CursoMapper;
 public class DAOCursoImple implements DAOCurso {
 
 	private final Log LOG = LogFactory.getLog(getClass());
-	
+
 	@Autowired
 	private DataSource dataSource;
 	private JdbcTemplate jdbcTemplate;
-	
+
 	@Autowired
 	@Override
 	public void setDatasource(DataSource ds) {
 		this.dataSource = ds;
 		this.jdbcTemplate = new JdbcTemplate(this.dataSource);
 	}
-	
+
+	// private static final String SQL_GET_BY_NAME_AND_COD= "SELECT `id`,
+	// `nombreCurso`, `codigoCurso` FROM `curso` WHERE `nombreCurso` = ? AND
+	// `codigoCurso`= ?;";
 	private static final String SQL_GET_ALL_USER = "SELECT `id`, `nombreCurso`, `codigoCurso` FROM `curso` ORDER BY `id` DESC LIMIT 10;";
 	private static final String SQL_GET_ALL_ADMIN = "SELECT `id`, `nombreCurso`, `codigoCurso` FROM `curso` ORDER BY `id` DESC LIMIT 500;";
 	private static final String SQL_GET_ALL_FILTER = "SELECT `id`, `nombreCurso`, `codigoCurso` FROM `curso` WHERE `nombreCurso` LIKE '%' ? '%' ORDER BY `id` DESC LIMIT 1000;";
-	private static final String SQL_GET_BY_ID ="SELECT `id`, `nombreCurso`, `codigoCurso` FROM `curso` WHERE `id` = ?;";
+	private static final String SQL_GET_BY_ID = "SELECT `id`, `nombreCurso`, `codigoCurso` FROM `curso` WHERE `id` = ?;";
 	private static final String SQL_DELETE = "DELETE FROM `curso` WHERE `id` = ?;";
 	private static final String SQL_UPDATE = "UPDATE `curso` SET `nombreCurso`= ?,`codigoCurso`= ? WHERE `id`= ? ;";
 	private static final String SQL_INSERT = "INSERT INTO `curso` (`nombreCurso`, `codigoCurso`) VALUES (?, ?);";
-	
-	
+
 	@Override
 	public List<Curso> getAllAdmin(String filter) {
 		ArrayList<Curso> lista = new ArrayList<Curso>();
 
 		try {
-			
+
 			if (filter == null) {
 				lista = (ArrayList<Curso>) this.jdbcTemplate.query(SQL_GET_ALL_ADMIN, new CursoMapper());
-			}else {
+			} else {
 				lista = (ArrayList<Curso>) this.jdbcTemplate.query(SQL_GET_ALL_FILTER, new Object[] { filter },
 						new CursoMapper());
 
 			}
-			
+
 		} catch (EmptyResultDataAccessException e) {
 
 			this.LOG.warn("No existen cursos todavia");
@@ -74,21 +77,21 @@ public class DAOCursoImple implements DAOCurso {
 
 		return lista;
 	}
-	
+
 	@Override
 	public List<Curso> getAllUser(String filter) {
 		ArrayList<Curso> lista = new ArrayList<Curso>();
 
 		try {
-			
+
 			if (filter == null) {
 				lista = (ArrayList<Curso>) this.jdbcTemplate.query(SQL_GET_ALL_USER, new CursoMapper());
-			}else {
+			} else {
 				lista = (ArrayList<Curso>) this.jdbcTemplate.query(SQL_GET_ALL_FILTER, new Object[] { filter },
 						new CursoMapper());
 
 			}
-			
+
 		} catch (EmptyResultDataAccessException e) {
 
 			this.LOG.warn("No existen cursos todavia");
@@ -124,7 +127,7 @@ public class DAOCursoImple implements DAOCurso {
 	}
 
 	@Override
-	public boolean insert(Curso c) {
+	public boolean insert(Curso c) throws DuplicateKeyException{
 
 		LOG.trace("insert " + c);
 		boolean resul = false;
@@ -148,10 +151,9 @@ public class DAOCursoImple implements DAOCurso {
 				c.setId(keyHolder.getKey().longValue());
 				resul = true;
 			}
-		} catch (Exception e) {
+		}catch (DuplicateKeyException e) {
 
-			this.LOG.error(e.getMessage());
-
+			throw new DuplicateKeyException("clave repostida");
 		}
 
 		return resul;
@@ -207,5 +209,4 @@ public class DAOCursoImple implements DAOCurso {
 		return resul;
 	}
 
-	
 }
