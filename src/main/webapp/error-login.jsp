@@ -1,16 +1,38 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<!DOCTYPE>
-<html>
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<title>Login-Error</title>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link href="resources/css/login.css" rel="stylesheet">	
+</head>
+<body>
+   <div class="wrapper">
+	<div class="container">
+		<h1>Usuario o contraseña erronea, por favor, acepte para volver a intentarlo.</h1>
 		
-		<link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
-		<link href="resources/css/login.css" rel="stylesheet">	
-	</head>
-	<body>
-		<p>Usuario o contraseÃ±a erronea, por favor, vuelve a intentarlo.</p>
-		<a href="login.jsp" id="login-button">Login</a>
-		 <script src="resources/js/login.js"></script>
-	</body>
+		<form class="form" action="login.jsp" method="post">
+
+				<button type="submit" value="aceptar">Aceptar</button>
+		</form>
+	</div>
+	
+	<ul class="bg-bubbles">
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+	</ul>
+</div> 
+ <script src="resources/js/login.js"></script>
+</body>
 </html>

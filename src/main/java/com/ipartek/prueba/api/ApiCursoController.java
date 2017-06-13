@@ -13,14 +13,18 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ipartek.prueba.domain.Curso;
 import com.ipartek.prueba.service.ServiceCurso;
-
-@Controller
+/**
+ * Controlador para la Api de los cursos
+ * @author Curso
+ *
+ */
+@Controller()
 @RequestMapping(value = "/api/curso/")
 public class ApiCursoController {
 	private static final Logger LOG = LoggerFactory.getLogger(ApiCursoController.class);
 	
 	@Autowired
-	ServiceCurso serviceCurso;
+	private ServiceCurso serviceCurso;
 	
 	/**
 	 * Listado de los cursos con un filtro opcional o sin el

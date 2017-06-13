@@ -2,6 +2,11 @@ package com.ipartek.prueba.domain;
 
 import java.io.Serializable;
 
+/**
+ * Pojo del curso con sus atributos
+ * @author Curso
+ *
+ */
 public class Curso implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
@@ -38,26 +43,51 @@ public class Curso implements Serializable {
 		  }
 
 
+	  /**
+	   * Getter del id
+	   * 
+	   * @return el id del curso
+	   */
 	public long getId() {
 		return id;
 	}
 
+	/**
+	 * setter del id
+	 * @param id setea el id que le pasas al id
+	 */
 	public void setId(long id) {
 		this.id = id;
 	}
 
+	/**
+	 * getter del nombre
+	 * @return el nombre del curso
+	 */
 	public String getNombre() {
 		return nombre;
 	}
 
+	/**
+	 * setter del nombre del curso
+	 * @param nombre que le pasas para el curso
+	 */
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
 
+	/**
+	 * getter del codigo del curso
+	 * @return codigo del curso
+	 */
 	public String getCodigo() {
 		return codigo;
 	}
 
+	/**
+	 * setter del codigo
+	 * @param codigo que le pasas para el curso
+	 */
 	public void setCodigo(String codigo) {
 		this.codigo = codigo;
 	}

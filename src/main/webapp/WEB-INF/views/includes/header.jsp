@@ -1,7 +1,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec"%>
+<%@ taglib uri = "http://www.springframework.org/tags/form" prefix = "form"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 
@@ -18,8 +19,7 @@
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 	
 	<!-- Custom -->
-<!-- 	<link href="resources/css/custom.css?d=201702288v1" rel="stylesheet">	
-	<link href="resources/css/detalle.css" rel="stylesheet"> -->	
+ 	<link href="resources/css/custom.css?v2.1" rel="stylesheet">		
 	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" crossorigin="anonymous">
 	
 </head>
@@ -56,14 +56,19 @@
 				</div>				
 			</form>
 
-			<c:if test="${not empty }">
-				<h2>Detalle del curso: ${curso.nombre}</h2>
-			</c:if>
-						<!-- menu derecha -->  
+			<!-- menu derecha -->  
             <ul class="nav navbar-nav navbar-right">
-              <li class="active">
-              	 <a href="admin">LOGIN</a>
-              	</li>
+
+					<c:if test="${pageContext.request.userPrincipal.name != null}">
+						<li class="active">
+              	 			<a href="logout">LOGOUT</a>
+              			</li>
+					</c:if>
+					<c:if test="${pageContext.request.userPrincipal.name == null}">
+						<li class="active">
+              	 			<a href="admin">LOGIN</a>
+              			</li>
+					</c:if>
             </ul>
             
                         

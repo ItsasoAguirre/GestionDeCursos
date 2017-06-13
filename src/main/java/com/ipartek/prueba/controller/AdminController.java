@@ -177,7 +177,7 @@ import com.opencsv.CSVReader;
 			CSVReader reader = null;
 		      try {
 		         reader = new CSVReader(new FileReader("C:/Desarrollo/WorkSpaceExamen/GestionDeCursos/deploy/cursos.csv"),';');
-		         String[] nextLine=null;
+		         
 		         List<String[]> texto = reader.readAll();
 		         boolean primeraLinea=true;
 

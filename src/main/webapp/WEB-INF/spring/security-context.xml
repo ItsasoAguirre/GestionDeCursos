@@ -15,12 +15,12 @@
 			  	logout-url="/logout"
 			 	delete-cookies="JSESSIONID" />
 	</http>
-	
-		<authentication-manager alias="authenticationManager">
-			<authentication-provider>
-				<user-service>
-					<user authorities="ROLE_USER" name="admin" password="2017#admin" />
-				</user-service>
-			</authentication-provider>
-		</authentication-manager>
+
+	<authentication-manager alias="authenticationManager">
+		<authentication-provider>
+			<user-service>
+				<user authorities="ROLE_USER" name="admin" password="2017#admin" />
+			</user-service>
+		</authentication-provider>
+	</authentication-manager>
 </beans:beans>

@@ -5,7 +5,11 @@ import java.util.List;
 import com.ipartek.prueba.domain.Curso;
 
 
-
+/**
+ * Interface para manejar los cursos
+ * @author Curso
+ *
+ */
 public interface ServiceCurso {
 	
 	/**
@@ -14,14 +18,14 @@ public interface ServiceCurso {
 	 *
 	 * @param filter
 	 *            filtro por el nombre si viene rellenado, sino, lista todo.
-	 * @return
+	 * @return lista de los ultimos 500 cursos
 	 */
 	List<Curso> listarAdmin(String filter);
 	
 	/**
 	 * Lista de los ultimos 10 cursos
-	 * @param filter
-	 * @return
+	 * @param filter parametro opcional que si se le pasa te devuelve los que coincidad con el texto pasado
+	 * @return lista de los ultimo 10 cursos
 	 */
 	List<Curso> listarUser(String filter);
 

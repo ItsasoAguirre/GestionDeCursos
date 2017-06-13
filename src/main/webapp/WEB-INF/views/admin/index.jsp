@@ -11,7 +11,7 @@
 <!-- parametro request, ej: ?msg=Mensaje+para+el+usuario -->
 <p>${param.msg}</p>
 
-<table class="tablePlugin" cellspacing="0" width="100%">
+<table class="tablePlugin fondo" cellspacing="0" width="100%">
   <thead>
       <tr>
           <th>Curso</th>

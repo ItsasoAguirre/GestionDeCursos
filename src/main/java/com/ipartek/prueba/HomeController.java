@@ -15,9 +15,11 @@ import com.ipartek.prueba.domain.Curso;
 import com.ipartek.prueba.service.ServiceCurso;
 
 /**
- * Handles requests for the application home page.
+ * Controlador para la pagina HOme
+ * @author Curso
+ *
  */
-@Controller
+@Controller()
 public class HomeController {
 
 	@Autowired

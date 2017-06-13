@@ -6,7 +6,11 @@ import java.sql.SQLException;
 import org.springframework.jdbc.core.RowMapper;
 
 import com.ipartek.prueba.domain.Curso;
-
+/**
+ * Mapper para el curso
+ * @author Curso
+ *
+ */
 public class CursoMapper implements RowMapper<Curso> {
 
 	@Override
