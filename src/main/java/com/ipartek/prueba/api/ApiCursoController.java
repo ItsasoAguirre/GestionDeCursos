@@ -42,7 +42,6 @@ public class ApiCursoController {
 
 		} else {
 
-			// TODO Fallo seguridad mostrar informacion del usuario privada
 			cursos = (ArrayList<Curso>) this.serviceCurso.listarAdmin(null);
 
 		}

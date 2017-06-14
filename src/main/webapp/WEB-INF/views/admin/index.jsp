@@ -1,4 +1,5 @@
 <%@ include file="../includes/header.jsp" %> 
+
 <h1>Listado Cursos</h1>
 <a href="admin/migrarCSV">Migrar cursos del archivo .CSV</a>
 <br>
@@ -28,7 +29,7 @@
 		</a>		
 	</td>
 	<td>
-		<a href="admin/edit/${c.id}">${c.codigo}</a>
+		${c.codigo}
 	</td>
 </tr>	
 </c:forEach>
@@ -36,6 +37,6 @@
 </tbody>
 </table>
 
-
+<div class="circulo"><a href="admin/#anclaSuperior"><span class="fa fa-4x fa-arrow-circle-up" aria-hidden="true"></span></a></div>
 
 <%@ include file="../includes/footer.jsp" %> 
