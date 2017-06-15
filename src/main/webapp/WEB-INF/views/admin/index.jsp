@@ -12,7 +12,7 @@
 <!-- parametro request, ej: ?msg=Mensaje+para+el+usuario -->
 <p>${param.msg}</p>
 
-<table class="tablePlugin fondo" cellspacing="0" width="100%">
+<table class="tablePlugin fondo"  width="100%"><caption>Listado de los ultimos 500 cursos añadidos</caption>
   <thead>
       <tr>
           <th>Curso</th>
@@ -38,5 +38,5 @@
 </table>
 
 <div class="circulo"><a href="admin/#anclaSuperior"><span class="fa fa-4x fa-arrow-circle-up" aria-hidden="true"></span></a></div>
-
+<script src="../../prueba/resources/js/login.js"></script>
 <%@ include file="../includes/footer.jsp" %> 

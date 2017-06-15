@@ -1,7 +1,6 @@
 package com.ipartek.prueba;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.ipartek.prueba.domain.Curso;
-import com.ipartek.prueba.service.ServiceCurso;
+import com.ipartek.prueba.service.ServiceCurso;	
 
 /**
  * Controlador para la pagina HOme
@@ -22,7 +21,7 @@ import com.ipartek.prueba.service.ServiceCurso;
 @Controller()
 public class HomeController {
 
-	@Autowired
+	@Autowired()
 	private ServiceCurso serviceCurso;
 	
 	private static final Logger LOG = LoggerFactory.getLogger(HomeController.class);

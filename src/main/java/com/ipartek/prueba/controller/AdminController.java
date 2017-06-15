@@ -2,7 +2,6 @@ package com.ipartek.prueba.controller;
 
 import java.io.FileReader;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.ipartek.prueba.domain.Curso;
 import com.ipartek.prueba.service.ServiceCurso;
-
 import com.opencsv.CSVReader;
 
 	/**
@@ -30,12 +28,13 @@ import com.opencsv.CSVReader;
 	 * @author curso
 	 *
 	 */
-	@Controller
+	@Controller()
 	@RequestMapping(value = "/admin")
 	public class AdminController {
 	
 	  public static final String SEPARATOR=";";
 	  public static final String QUOTE="\"";
+	  public static final int OCHO=8;
 
 	  private static final Logger LOG = LoggerFactory.getLogger(AdminController.class);
 	
@@ -78,7 +77,7 @@ import com.opencsv.CSVReader;
 		 * @return form de modificar curso
 		 */
 		@RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
-		public String irFormularioEditar(@PathVariable int id, Model model) {
+		public String irFormularioEditar(@PathVariable() int id, Model model) {
 	
 			   Curso curso = this.serviceCurso.buscarPorID(id);
 	
@@ -94,7 +93,7 @@ import com.opencsv.CSVReader;
 		 * @return regresa al index de la pagina de gestion de cursos
 		 */
 		@RequestMapping(value = "/crear", method = RequestMethod.POST)
-		public String crear(@Valid Curso curso, BindingResult bindingResult, Model model) {
+		public String crear(@Valid() Curso curso, BindingResult bindingResult, Model model) {
 	
 		    LOG.info("recibimos datos del formulario " + curso);
 		    String msg = null;
@@ -140,7 +139,7 @@ import com.opencsv.CSVReader;
 		 * 
 		 */
 		@RequestMapping(value = "/delete/{idCurso}", method = RequestMethod.GET)
-		public String eliminar(@PathVariable int idCurso, Model model) {
+		public String eliminar(@PathVariable() int idCurso, Model model) {
 	
 			LOG.info("eliminar curso " + idCurso);
 			String view = "redirect: ../";
@@ -167,7 +166,7 @@ import com.opencsv.CSVReader;
 		public String migrarCSV(Model model) {
 
 			LOG.info("migrar archivo ");
-			String view = "redirect: ../";
+			
 			String msg = "Migracion no realizada";
 			Curso c = null;
 			ArrayList<Curso> noInsertados = new ArrayList<Curso>();
@@ -176,7 +175,7 @@ import com.opencsv.CSVReader;
 		     //"C:/Desarrollo/WorkSpaceExamen/GestionDeCursos/deploy/cursos.csv"
 			CSVReader reader = null;
 		      try {
-		         reader = new CSVReader(new FileReader("C:/Desarrollo/WorkSpaceExamen/GestionDeCursos/deploy/cursos.csv"),';');
+		         reader = new CSVReader(new FileReader("C:/migracion/cursos.csv"),';');
 		         
 		         List<String[]> texto = reader.readAll();
 		         boolean primeraLinea=true;
@@ -184,7 +183,7 @@ import com.opencsv.CSVReader;
 			     for (String[] linea: texto) {
 			    	 try{
 			        	 if(!primeraLinea){
-			        		 c=new Curso(linea[1],linea[8]);
+			        		 c=new Curso(linea[1],linea[OCHO]);
 			        		 this.serviceCurso.crear(c);
 			        		 msg = "Creado nuevo curso";
 			        	 }
@@ -213,7 +212,7 @@ import com.opencsv.CSVReader;
 	     				 reader.close();
 	     				 
 						} catch (IOException e) {
-							// TODO Auto-generated catch block
+							
 							e.printStackTrace();
 						}
 	     		 } //end if

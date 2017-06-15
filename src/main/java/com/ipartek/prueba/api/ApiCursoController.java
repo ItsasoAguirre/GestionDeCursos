@@ -2,8 +2,6 @@ package com.ipartek.prueba.api;
 
 import java.util.ArrayList;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,9 +19,9 @@ import com.ipartek.prueba.service.ServiceCurso;
 @Controller()
 @RequestMapping(value = "/api/curso/")
 public class ApiCursoController {
-	private static final Logger LOG = LoggerFactory.getLogger(ApiCursoController.class);
 	
-	@Autowired
+	
+	@Autowired()
 	private ServiceCurso serviceCurso;
 	
 	/**
@@ -32,7 +30,7 @@ public class ApiCursoController {
 	 * @return retorna los cursos ya sean con filtro o no 
 	 */
 	@RequestMapping(value = "", method = RequestMethod.GET)
-	public @ResponseBody ArrayList<Curso> listar(@RequestParam(value = "filter", required = false) String filter) {
+	public @ResponseBody() ArrayList<Curso> listar(@RequestParam(value = "filter", required = false) String filter) {
 
 		ArrayList<Curso> cursos = null;
 

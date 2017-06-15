@@ -38,9 +38,6 @@ ${msg}
 				</c:otherwise>
 			</c:choose>
 
-			<form action="admin">
-				<input type="submit" value="Volver" />
-			</form>
 
 		</form:form>
 	</div>

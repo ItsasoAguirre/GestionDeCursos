@@ -23,18 +23,22 @@ import org.springframework.stereotype.Repository;
 
 import com.ipartek.prueba.domain.Curso;
 import com.ipartek.prueba.repository.mapper.CursoMapper;
-
+/**
+ * Modelo para poder realizar todas las operaciones de CRUD contra la base de datos
+ * @author Curso
+ *
+ */
 @Repository("daoCurso")
 public class DAOCursoImple implements DAOCurso {
 
 	private final Log LOG = LogFactory.getLog(getClass());
 
-	@Autowired
+	@Autowired()
 	private DataSource dataSource;
 	private JdbcTemplate jdbcTemplate;
 
-	@Autowired
-	@Override
+	@Autowired()
+	@Override()
 	public void setDatasource(DataSource ds) {
 		this.dataSource = ds;
 		this.jdbcTemplate = new JdbcTemplate(this.dataSource);
@@ -51,7 +55,7 @@ public class DAOCursoImple implements DAOCurso {
 	private static final String SQL_UPDATE = "UPDATE `curso` SET `nombreCurso`= ?,`codigoCurso`= ? WHERE `id`= ? ;";
 	private static final String SQL_INSERT = "INSERT INTO `curso` (`nombreCurso`, `codigoCurso`) VALUES (?, ?);";
 
-	@Override
+	@Override()
 	public List<Curso> getAllAdmin(String filter) {
 		ArrayList<Curso> lista = new ArrayList<Curso>();
 
@@ -78,7 +82,7 @@ public class DAOCursoImple implements DAOCurso {
 		return lista;
 	}
 
-	@Override
+	@Override()
 	public List<Curso> getAllUser(String filter) {
 		ArrayList<Curso> lista = new ArrayList<Curso>();
 
@@ -105,7 +109,7 @@ public class DAOCursoImple implements DAOCurso {
 		return lista;
 	}
 
-	@Override
+	@Override()
 	public Curso getById(long id) {
 		Curso c = new Curso();
 
@@ -126,7 +130,7 @@ public class DAOCursoImple implements DAOCurso {
 		return c;
 	}
 
-	@Override
+	@Override()
 	public boolean insert(Curso c) throws DuplicateKeyException{
 
 		LOG.trace("insert " + c);
@@ -138,7 +142,7 @@ public class DAOCursoImple implements DAOCurso {
 
 			affectedeRows = this.jdbcTemplate.update(new PreparedStatementCreator() {
 
-				@Override
+				@Override()
 				public PreparedStatement createPreparedStatement(Connection conn) throws SQLException {
 					PreparedStatement ps = conn.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS);
 					ps.setString(1, c.getNombre());
@@ -159,7 +163,7 @@ public class DAOCursoImple implements DAOCurso {
 		return resul;
 	}
 
-	@Override
+	@Override()
 	public boolean update(Curso c) {
 		LOG.trace("update " + c);
 		boolean resul = false;
@@ -183,7 +187,7 @@ public class DAOCursoImple implements DAOCurso {
 		return resul;
 	}
 
-	@Override
+	@Override()
 	public boolean delete(long id) {
 		LOG.trace("eliminar " + id);
 		boolean resul = false;
